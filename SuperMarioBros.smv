@@ -64,3 +64,9 @@ ASSIGN
             -- Default
             TRUE: { MarioBros, SuperMario, FireMario, MarioCapa, MarioMorto, MarioInvencivel };
         esac;
+
+SPEC
+    AG(marioState != MarioMorto & collidedWith = Estrela -> AF marioState = MarioInvencivel)
+    & AG(marioState = MarioMorto -> AF marioState = MarioMorto)
+    & AG(marioState != MarioMorto & collidedWith = Flor -> AF marioState = FireMario)
+    & AG(marioState != MarioMorto & collidedWith = Pena -> AF marioState = MarioCapa);
