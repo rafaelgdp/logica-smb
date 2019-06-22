@@ -15,8 +15,10 @@ sig MarioInvencivel extends Mario {}
 
 sig Item {}
 sig Flor extends Item {}
-sig Flor extends Item {}
-
+sig Pena extends Item {}
+sig Cogumelo extends Item {}
+sig Estrela extends Item {}
+sig Inimigo extends Item {}
 
 pred show[] {
 
