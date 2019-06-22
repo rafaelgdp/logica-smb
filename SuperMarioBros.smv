@@ -24,37 +24,40 @@ ASSIGN
     next(marioState) :=
         case
             -- MarioBros state transitions:
-            marioState=MarioBros & collidedWith=Cogumelo: next(marioState) := SuperMario;
-            marioState=MarioBros & collidedWith=Flor: next(marioState) := FireMario;
-            marioState=MarioBros & collidedWith=Estrela: next(marioState) := MarioInvencivel;
-            marioState=MarioBros & collidedWith=Pena: next(marioState) := MarioCapa;
-            marioState=MarioBros & collidedWith=Inimigo: next(marioState) := MarioMorto;
+            marioState=MarioBros & collidedWith=Cogumelo: SuperMario;
+            marioState=MarioBros & collidedWith=Flor: FireMario;
+            marioState=MarioBros & collidedWith=Estrela: MarioInvencivel;
+            marioState=MarioBros & collidedWith=Pena: MarioCapa;
+            marioState=MarioBros & collidedWith=Inimigo: MarioMorto;
             
             -- SuperMario state transitions:
-            marioState=SuperMario & collidedWith=Flor: next(marioState) := FireMario;
-            marioState=SuperMario & collidedWith=Estrela: next(marioState) := MarioInvencivel;
-            marioState=SuperMario & collidedWith=Pena: next(marioState) := MarioCapa;
-            marioState=SuperMario & collidedWith=Cogumelo: next(marioState) := SuperMario;
-            marioState=SuperMario & collidedWith=Inimigo: next(marioState) := MarioBros;
+            marioState=SuperMario & collidedWith=Flor: FireMario;
+            marioState=SuperMario & collidedWith=Estrela: MarioInvencivel;
+            marioState=SuperMario & collidedWith=Pena: MarioCapa;
+            marioState=SuperMario & collidedWith=Cogumelo: SuperMario;
+            marioState=SuperMario & collidedWith=Inimigo: MarioBros;
 
             -- FireMario state transitions:
-            marioState=FireMario & collidedWith=Flor: next(marioState) := FireMario;
-            marioState=FireMario & collidedWith=Estrela: next(marioState) := MarioInvencivel;
-            marioState=FireMario & collidedWith=Pena: next(marioState) := MarioCapa;
-            marioState=FireMario & collidedWith=Cogumelo: next(marioState) := FireMario;
-            marioState=FireMario & collidedWith=Inimigo: next(marioState) := MarioBros;
+            marioState=FireMario & collidedWith=Flor: FireMario;
+            marioState=FireMario & collidedWith=Estrela: MarioInvencivel;
+            marioState=FireMario & collidedWith=Pena: MarioCapa;
+            marioState=FireMario & collidedWith=Cogumelo: FireMario;
+            marioState=FireMario & collidedWith=Inimigo: MarioBros;
 
             -- MarioCapa state transitions:
-            marioState=MarioCapa & collidedWith=Flor: next(marioState) := FireMario;
-            marioState=MarioCapa & collidedWith=Estrela: next(marioState) := MarioInvencivel;
-            marioState=MarioCapa & collidedWith=Pena: next(marioState) := MarioCapa;
-            marioState=MarioCapa & collidedWith=Cogumelo: next(marioState) := MarioCapa;
-            marioState=MarioCapa & collidedWith=Inimigo: next(marioState) := MarioBros;
+            marioState=MarioCapa & collidedWith=Flor: FireMario;
+            marioState=MarioCapa & collidedWith=Estrela: MarioInvencivel;
+            marioState=MarioCapa & collidedWith=Pena: MarioCapa;
+            marioState=MarioCapa & collidedWith=Cogumelo: MarioCapa;
+            marioState=MarioCapa & collidedWith=Inimigo: MarioBros;
 
             -- MarioInvencivel state transitions:
-            marioState=MarioInvencivel & collidedWith=Flor: next(marioState) := FireMario;
-            marioState=MarioInvencivel & collidedWith=Estrela: next(marioState) := MarioInvencivel;
-            marioState=MarioInvencivel & collidedWith=Pena: next(marioState) := MarioCapa;
-            marioState=MarioInvencivel & collidedWith=Cogumelo: next(marioState) := MarioInvencivel;
-            marioState=MarioInvencivel & collidedWith=Inimigo: next(marioState) := MarioInvencivel;
+            marioState=MarioInvencivel & collidedWith=Flor: FireMario;
+            marioState=MarioInvencivel & collidedWith=Estrela: MarioInvencivel;
+            marioState=MarioInvencivel & collidedWith=Pena: MarioCapa;
+            marioState=MarioInvencivel & collidedWith=Cogumelo: MarioInvencivel;
+            marioState=MarioInvencivel & collidedWith=Inimigo: MarioInvencivel;
+
+            -- Default
+            TRUE: { MarioBros, SuperMario, FireMario, MarioCapa, MarioMorto, MarioInvencivel };
         esac;
