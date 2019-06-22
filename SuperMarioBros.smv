@@ -58,6 +58,9 @@ ASSIGN
             marioState=MarioInvencivel & collidedWith=Cogumelo: MarioInvencivel;
             marioState=MarioInvencivel & collidedWith=Inimigo: MarioInvencivel;
 
+            -- If dead, remains dead
+            marioState=MarioMorto: MarioMorto;
+
             -- Default
             TRUE: { MarioBros, SuperMario, FireMario, MarioCapa, MarioMorto, MarioInvencivel };
         esac;
