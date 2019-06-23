@@ -1,6 +1,4 @@
-open util/ordering[State]
-
-open util/integer
+open util/time
 
 enum EstadoMario {
     MarioBros,
@@ -10,8 +8,6 @@ enum EstadoMario {
     MarioMorto,
     MarioInvencivel
 }
-
-enum Bool {False, True}
 
 sig Mario {
     estadoAtual: EstadoMario,
@@ -30,16 +26,14 @@ sig Inimigo extends EntidadeJogo {}
 sig Nada extends EntidadeJogo {}
 
 pred init[t:Time] {
-    (Mario.estadoAtual).t = EstadoMario.MarioBros
+	Mario.estadoAtual = MarioBros
 }
 
-pred coletarItem[m:Mario, i:Item, t,t':Time] {
-    (m.estadoAtual).t = EstadoMario.MarioBros
-    (m.colidiuCom).t = Flor
-    (m.estadoAtual).t' = EstadoMario.FireMario
+pred marioBrosColetaFlor[m, m':Mario, i:Item] {
+    m.estadoAtual = MarioBros
+    m.colidiuCom = Flor
+    m'.estadoAtual = FireMario
 }
-
-
 pred show [] {
 }
 
