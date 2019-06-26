@@ -1,4 +1,6 @@
-open util/ordering[Time] as to
+module marioBrosGame
+
+open util/ordering[Time]
 
 sig Time{}
 
@@ -12,8 +14,8 @@ enum EstadoMario {
 }
 
 sig Mario {
-	estadoAtual: EstadoMario,
-	colidiuCom: EntidadeJogo //Ultima colisão
+	estadoAtual: EstadoMario one -> Time,
+	colidiuCom:  EntidadeJogo  one -> Time //Ultima colisão
 }
 
 abstract sig EntidadeJogo {}
@@ -28,37 +30,40 @@ sig Inimigo extends EntidadeJogo {}
 sig Nada extends EntidadeJogo {}
 
 pred init[t:Time] {
-	Mario.estadoAtual = MarioBros
-	Mario.colidiuCom = Nada
+	(Mario.estadoAtual).t = MarioBros
+	(Mario.colidiuCom).t = Nada
 }
 
-
-fact morto{
-	(Mario.estadoAtual = MarioMorto) => (Mario.colidiuCom = Inimigo)
+fact{
+	morto[Mario, Time] && fire[Mario, Time] && pena[Mario, Time] && invencivel[Mario, Time] &&  super[Mario, Time] && bros[Mario, Time]
 }
 
-fact fire{
-	Mario.estadoAtual = FireMario => (Mario.colidiuCom = Flor || Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada)
+pred morto[mario:Mario, t:Time]{
+	(mario.estadoAtual.t = MarioMorto) => (mario.colidiuCom.t = Inimigo)
 }
 
-fact pena{
-		Mario.estadoAtual = MarioCapa => (Mario.colidiuCom = Pena || Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada)
+pred fire[mario:Mario, t:Time]{
+	mario.estadoAtual.t = FireMario => (mario.colidiuCom.t = Flor || mario.colidiuCom.t = Cogumelo || mario.colidiuCom.t = Nada)
 }
 
-fact invencivel {
-		Mario.estadoAtual = MarioInvencivel => (Mario.colidiuCom = Estrela || Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada ||  Mario.colidiuCom = Inimigo)
+pred pena[mario:Mario, t:Time]{
+		mario.estadoAtual.t = MarioCapa => (mario.colidiuCom.t = Pena || mario.colidiuCom.t = Cogumelo || mario.colidiuCom.t = Nada)
 }
 
-fact super{
-		Mario.estadoAtual = SuperMario => (Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada || Mario.colidiuCom = Inimigo) 
+pred invencivel [mario:Mario, t:Time]{
+		mario.estadoAtual.t = MarioInvencivel => (mario.colidiuCom.t = Estrela || mario.colidiuCom.t = Cogumelo || mario.colidiuCom.t = Nada ||  mario.colidiuCom.t = Inimigo)
 }
 
-fact bros{
-		Mario.estadoAtual = MarioBros => (Mario.colidiuCom = Nada || Mario.colidiuCom = Inimigo) 
+pred super[mario:Mario, t:Time]{
+		mario.estadoAtual.t = SuperMario => (mario.colidiuCom.t = Cogumelo || mario.colidiuCom.t = Nada || mario.colidiuCom.t = Inimigo) 
+}
+
+pred bros[mario:Mario, t:Time]{
+		mario.estadoAtual.t = MarioBros => (mario.colidiuCom.t = Nada || mario.colidiuCom.t = Inimigo) 
 }
 
 
 pred show [] {
 }
 
-run show for 3
+run show for 2
