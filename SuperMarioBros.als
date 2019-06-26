@@ -1,5 +1,3 @@
-open util/time
-
 enum EstadoMario {
     MarioBros,
     SuperMario,
@@ -10,8 +8,9 @@ enum EstadoMario {
 }
 
 sig Mario {
-    estadoAtual: EstadoMario,
-    colidiuCom: EntidadeJogo
+	estadoAtual: EstadoMario,
+	proximoEstado:EstadoMario,
+	colidiuCom: EntidadeJogo
 }
 
 abstract sig EntidadeJogo {}
@@ -25,15 +24,41 @@ sig Estrela extends Item {}
 sig Inimigo extends EntidadeJogo {}
 sig Nada extends EntidadeJogo {}
 
-pred init[t:Time] {
-	Mario.estadoAtual = MarioBros
+pred init[m:Mario] {
+	m.estadoAtual = MarioBros
+	m.proximoEstado = MarioBros
+	m.colidiuCom = Nada
 }
 
-pred marioBrosColetaFlor[m, m':Mario, i:Item] {
-    m.estadoAtual = MarioBros
-    m.colidiuCom = Flor
-    m'.estadoAtual = FireMario
+fact MarioMortoNaoRevive {
+	all m: Mario | m.estadoAtual = MarioMorto => m.proximoEstado = MarioMorto
 }
+
+fact MarioColideComNadaContinuaOMesmo {
+	all m:Mario | (m.colidiuCom = Nada) => (m.estadoAtual = m.proximoEstado)
+}
+
+pred marioColetaFlor[m:Mario] {
+	m.colidiuCom = Flor
+	m.proximoEstado = FireMario
+}
+
+pred marioColetaPena[m:Mario] {
+	m.colidiuCom = Pena
+	m.proximoEstado = MarioCapa
+}
+
+pred marioColetaEstrela[m:Mario] {
+	m.colidiuCom = Estrela
+	m.proximoEstado = MarioInvencivel
+}
+
+pred marioColetaCogumeloENaoMuda[m:Mario] {
+	m.estadoAtual = FireMario || m.estadoAtual = SuperMario || m.estadoAtual = MarioCapa || m.estadoAtual = MarioInvencivel
+	m.colidiuCom = Cogumelo
+	m.proximoEstado = m.estadoAtual
+}
+
 pred show [] {
 }
 
