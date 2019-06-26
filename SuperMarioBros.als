@@ -13,8 +13,7 @@ enum EstadoMario {
 
 sig Mario {
 	estadoAtual: EstadoMario,
-	proximoEstado:EstadoMario,
-	colidiuCom: EntidadeJogo
+	colidiuCom: EntidadeJogo //Ultima colisão
 }
 
 abstract sig EntidadeJogo {}
@@ -28,56 +27,38 @@ sig Estrela extends Item {}
 sig Inimigo extends EntidadeJogo {}
 sig Nada extends EntidadeJogo {}
 
-fact invencivel{
-	Mario.estadoAtual = MarioInvencivel && (Mario.colidiuCom != Flor && Mario.colidiuCom != Pena)
-	Mario.proximoEstado = MarioInvencivel
-}
-fact morto{
-	Mario.proximoEstado = MarioMorto => (Mario.estadoAtual = MarioMorto || MarioMorre[Mario])
-
-}
-
 pred init[t:Time] {
 	Mario.estadoAtual = MarioBros
 	Mario.colidiuCom = Nada
-	Mario.proximoEstado = MarioBros
-}
-
-pred MarioMorre [m:Mario]{
-	m.estadoAtual = MarioBros
-	m.colidiuCom = Inimigo 
-	m.proximoEstado = MarioMorto
 }
 
 
-pred marioColetaFlor[m:Mario] {
-	m.colidiuCom = Flor
-	m.estadoAtual != MarioMorto
-	
-	m.proximoEstado= FireMario
+fact morto{
+	(Mario.estadoAtual = MarioMorto) => (Mario.colidiuCom = Inimigo)
 }
 
-pred marioColetaPena[m:Mario] {
-	m.colidiuCom = Pena
-	m.estadoAtual != MarioMorto
-	
-	m.proximoEstado= MarioCapa
+fact fire{
+	Mario.estadoAtual = FireMario => (Mario.colidiuCom = Flor || Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada)
 }
 
-pred marioColetaEstrela[m:Mario] {
-	m.colidiuCom = Estrela
-	m.estadoAtual != MarioMorto
-	m.proximoEstado = MarioInvencivel
+fact pena{
+		Mario.estadoAtual = MarioCapa => (Mario.colidiuCom = Pena || Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada)
 }
 
-pred marioColetaCogumeloENaoMuda[m:Mario] {
-	m.estadoAtual = FireMario || m.estadoAtual = SuperMario || m.estadoAtual = MarioCapa || m.estadoAtual = MarioInvencivel
-	m.colidiuCom = Cogumelo
-	m.proximoEstado = m.estadoAtual
+fact invencivel {
+		Mario.estadoAtual = MarioInvencivel => (Mario.colidiuCom = Estrela || Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada ||  Mario.colidiuCom = Inimigo)
+}
+
+fact super{
+		Mario.estadoAtual = SuperMario => (Mario.colidiuCom = Cogumelo || Mario.colidiuCom = Nada || Mario.colidiuCom = Inimigo) 
+}
+
+fact bros{
+		Mario.estadoAtual = MarioBros => (Mario.colidiuCom = Nada || Mario.colidiuCom = Inimigo) 
 }
 
 
 pred show [] {
 }
 
-run show for 10
+run show for 3
