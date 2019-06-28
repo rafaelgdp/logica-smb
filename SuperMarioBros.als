@@ -38,12 +38,26 @@ fact MarioColideComNadaContinuaOMesmo {
 	all m:Mario | (m.colidiuCom = Nada) => (m.estadoAtual = m.proximoEstado)
 }
 
+fact MarioColideComInimigo{
+	all m:Mario |  (m.proximoEstado = MarioMorto) => ((m.estadoAtual = MarioBros && m.colidiuCom = Inimigo) || (m.estadoAtual = MarioMorto))
+}
+
+//fact EstadosPossiveis{
+//	all m:Mario | 	marioColetaCogumelo[m] && marioColetaFlor[m] && marioColetaPena[m] &&  marioColetaEstrela[m]
+//}
+
+pred marioColetaCogumelo[m:Mario] {
+	m.colidiuCom = Cogumelo
+	m.proximoEstado = SuperMario
+}
+
 pred marioColetaFlor[m:Mario] {
 	m.colidiuCom = Flor
 	m.proximoEstado = FireMario
 }
 
 pred marioColetaPena[m:Mario] {
+	m.estadoAtual != MarioMorto
 	m.colidiuCom = Pena
 	m.proximoEstado = MarioCapa
 }
