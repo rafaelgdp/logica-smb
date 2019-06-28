@@ -66,7 +66,7 @@ ASSIGN
         esac;
 
 SPEC
-    AG(marioState != MarioMorto & collidedWith = Estrela -> AF marioState = MarioInvencivel)
+    AG(marioState != MarioMorto & collidedWith = Estrela -> AX marioState = MarioInvencivel)
     & AG(marioState = MarioMorto -> AF marioState = MarioMorto)
-    & AG(marioState != MarioMorto & collidedWith = Flor -> AF marioState = FireMario)
-    & AG(marioState != MarioMorto & collidedWith = Pena -> AF marioState = MarioCapa);
+    & AG(marioState != MarioMorto & collidedWith = Flor -> AX marioState = FireMario)
+    & AG(marioState != MarioMorto & collidedWith = Pena -> AX marioState = MarioCapa);
