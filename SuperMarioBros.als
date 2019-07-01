@@ -42,9 +42,73 @@ fact MarioColideComInimigo{
 	all m:Mario |  (m.proximoEstado = MarioMorto) => ((m.estadoAtual = MarioBros && m.colidiuCom = Inimigo) || (m.estadoAtual = MarioMorto))
 }
 
-//fact EstadosPossiveis{
-//	all m:Mario | 	marioColetaCogumelo[m] && marioColetaFlor[m] && marioColetaPena[m] &&  marioColetaEstrela[m]
-//}
+fact MarioInvencivelCondicoes{
+	all m:Mario | (m.proximoEstado = MarioInvencivel) => (m.estadoAtual = MarioInvencivel && (m.colidiuCom = Cogumelo || m.colidiuCom = Estrela || m.colidiuCom = Inimigo))
+} 
+
+fact MarioColetaFor{
+	all m:Mario | m.proximoEstado = FireMario => ((m.estadoAtual = MarioBros || m.estadoAtual = MarioInvencivel) && m.colidiuCom = Flor)
+}
+
+fact MarioColetaCogumelo{
+	all m:Mario | m.proximoEstado = SuperMario => (m.estadoAtual = MarioBros && m.colidiuCom = Cogumelo)
+}
+
+fact MarioColetaPena{
+	all m:Mario | m.proximoEstado = MarioCapa => ((m.estadoAtual = MarioBros || m.estadoAtual = MarioInvencivel) && m.colidiuCom = Pena)
+}
+
+fact MarioColetaEstrela{
+	all m:Mario | m.proximoEstado = MarioInvencivel => (m.estadoAtual = MarioBros && m.colidiuCom = Estrela)
+}
+
+fact SuperMarioColideInimigo{
+	all m:Mario | m.proximoEstado = MarioBros => (m.estadoAtual = SuperMario && m.colidiuCom = Inimigo)
+}
+
+fact SuperMarioColetaCogumelo{
+	all m:Mario | m.proximoEstado = m.estadoAtual => (m.estadoAtual = SuperMario && m.colidiuCom = Cogumelo)
+}
+
+fact SuperMarioColetaPena{
+	all m:Mario | m.proximoEstado = MarioCapa => (m.estadoAtual = SuperMario && m.colidiuCom = Pena)
+}
+
+fact SuperMarioColetaFlor{
+	all m:Mario | m.proximoEstado = FireMario => (m.estadoAtual = SuperMario && m.colidiuCom = Flor)
+}
+
+fact SuperMarioColetaEstrela{
+	all m:Mario | m.proximoEstado = MarioInvencivel => (m.estadoAtual = SuperMario && m.colidiuCom = Estrela)
+}
+
+fact FireMarioColetaCogumeloOuFlor{
+	all m:Mario | m.proximoEstado = m.estadoAtual => (m.estadoAtual = FireMario && (m.colidiuCom = Cogumelo || m.colidiuCom = Flor))
+}
+
+fact FireMarioColetaPena{
+	all m:Mario | m.proximoEstado = MarioCapa => (m.estadoAtual = FireMario && m.colidiuCom = Pena)
+}
+
+fact FireMarioColetaEstrela{
+	all m:Mario | m.proximoEstado = MarioInvencivel => (m.estadoAtual = FireMario && m.colidiuCom = Estrela)
+}
+
+fact MarioCapaColetaCogumeloOuPena{
+	all m:Mario | m.proximoEstado = m.estadoAtual => (m.estadoAtual = FireMario && (m.colidiuCom = Cogumelo || m.colidiuCom = Pena))
+}
+
+fact VoltaSuperMario{
+	all m:Mario | m.proximoEstado = SuperMario => ((m.estadoAtual = FireMario || m.estadoAtual = MarioCapa) && m.colidiuCom = Inimigo)
+}
+
+fact MarioCapaColetaFlor{
+	all m:Mario | m.proximoEstado = FireMario => (m.estadoAtual = MarioCapa && m.colidiuCom = Flor)
+}
+
+fact MarioCapaColetaEstrela{
+	all m:Mario | m.proximoEstado = MarioInvencivel => (m.estadoAtual = MarioCapa && m.colidiuCom = Estrela)
+}
 
 pred marioColetaCogumelo[m:Mario] {
 	m.colidiuCom = Cogumelo
@@ -76,4 +140,4 @@ pred marioColetaCogumeloENaoMuda[m:Mario] {
 pred show [] {
 }
 
-run show for 3
+run show for 5
