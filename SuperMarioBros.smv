@@ -29,6 +29,7 @@ ASSIGN
             marioState=MarioBros & collidedWith=Estrela: MarioInvencivel;
             marioState=MarioBros & collidedWith=Pena: MarioCapa;
             marioState=MarioBros & collidedWith=Inimigo: MarioMorto;
+            marioState=MarioBros & collidedWith=None: MarioBros;
             
             -- SuperMario state transitions:
             marioState=SuperMario & collidedWith=Flor: FireMario;
@@ -36,6 +37,7 @@ ASSIGN
             marioState=SuperMario & collidedWith=Pena: MarioCapa;
             marioState=SuperMario & collidedWith=Cogumelo: SuperMario;
             marioState=SuperMario & collidedWith=Inimigo: MarioBros;
+            marioState=SuperMario & collidedWith=None: SuperMario;
 
             -- FireMario state transitions:
             marioState=FireMario & collidedWith=Flor: FireMario;
@@ -43,6 +45,7 @@ ASSIGN
             marioState=FireMario & collidedWith=Pena: MarioCapa;
             marioState=FireMario & collidedWith=Cogumelo: FireMario;
             marioState=FireMario & collidedWith=Inimigo: MarioBros;
+            marioState=FireMario & collidedWith=None: FireMario;
 
             -- MarioCapa state transitions:
             marioState=MarioCapa & collidedWith=Flor: FireMario;
@@ -50,6 +53,7 @@ ASSIGN
             marioState=MarioCapa & collidedWith=Pena: MarioCapa;
             marioState=MarioCapa & collidedWith=Cogumelo: MarioCapa;
             marioState=MarioCapa & collidedWith=Inimigo: MarioBros;
+            marioState=MarioCapa & collidedWith=None: MarioCapa;
 
             -- MarioInvencivel state transitions:
             marioState=MarioInvencivel & collidedWith=Flor: FireMario;
@@ -57,6 +61,7 @@ ASSIGN
             marioState=MarioInvencivel & collidedWith=Pena: MarioCapa;
             marioState=MarioInvencivel & collidedWith=Cogumelo: MarioInvencivel;
             marioState=MarioInvencivel & collidedWith=Inimigo: MarioInvencivel;
+            marioState=MarioInvencivel & collidedWith=None: MarioInvencivel;
 
             -- If dead, remains dead
             marioState=MarioMorto: MarioMorto;
