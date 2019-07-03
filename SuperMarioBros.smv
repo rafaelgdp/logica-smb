@@ -44,7 +44,7 @@ ASSIGN
             marioState=FireMario & collidedWith=Estrela: MarioInvencivel;
             marioState=FireMario & collidedWith=Pena: MarioCapa;
             marioState=FireMario & collidedWith=Cogumelo: FireMario;
-            marioState=FireMario & collidedWith=Inimigo: MarioBros;
+            marioState=FireMario & collidedWith=Inimigo: SuperMario;
             marioState=FireMario & collidedWith=None: FireMario;
 
             -- MarioCapa state transitions:
@@ -52,7 +52,7 @@ ASSIGN
             marioState=MarioCapa & collidedWith=Estrela: MarioInvencivel;
             marioState=MarioCapa & collidedWith=Pena: MarioCapa;
             marioState=MarioCapa & collidedWith=Cogumelo: MarioCapa;
-            marioState=MarioCapa & collidedWith=Inimigo: MarioBros;
+            marioState=MarioCapa & collidedWith=Inimigo: SuperMario;
             marioState=MarioCapa & collidedWith=None: MarioCapa;
 
             -- MarioInvencivel state transitions:
