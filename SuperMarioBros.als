@@ -32,6 +32,10 @@ pred init[m:Mario] {
 
 //Geral
 
+fact MorteDoMario{
+	all m:Mario |(m.proximoEstado = MarioMorto) <=> (m.estadoAtual = MarioMorto || (m.estadoAtual = MarioBros && m.colidiuCom = Inimigo))
+}
+
 fact MarioMortoNaoRevive {
 	all m: Mario | m.estadoAtual = MarioMorto => m.proximoEstado = MarioMorto
 }
@@ -44,35 +48,23 @@ fact VoltaSuperMario{
 	all m:Mario |   ((m.estadoAtual = FireMario || m.estadoAtual = MarioCapa) && m.colidiuCom = Inimigo) => m.proximoEstado = SuperMario
 }
 
-fact MorteDoMario{
-	all m:Mario |(m.proximoEstado = MarioMorto) <=> (m.estadoAtual = MarioMorto || (m.estadoAtual = MarioBros && m.colidiuCom = Inimigo))
+fact MarioColetaEstrela{
+	all m:Mario |  (m.estadoAtual != MarioMorto && m.colidiuCom = Estrela) => m.proximoEstado = MarioInvencivel
 }
+fact MarioColetaFlor{
+	all m:Mario |  (m.estadoAtual != MarioMorto && m.colidiuCom = Flor) => m.proximoEstado = FireMario
+}
+fact MarioColetaPena{
+	all m:Mario |  (m.estadoAtual != MarioMorto && m.colidiuCom = Pena) => m.proximoEstado = MarioCapa
+}
+
+
 
 
 //Mario Bros
 
-fact MarioColideComInimigo{
-	all m:Mario |  ((m.estadoAtual = MarioBros && m.colidiuCom = Inimigo) || (m.estadoAtual = MarioMorto)) => (m.proximoEstado = MarioMorto)
-}
-
-fact MarioInvencivelCondicoes{
-	all m:Mario | (m.estadoAtual = MarioInvencivel && (m.colidiuCom = Cogumelo || m.colidiuCom = Estrela || m.colidiuCom = Inimigo)) => (m.proximoEstado = MarioInvencivel)
-} 
-
-fact MarioColetaFlor{
-	all m:Mario |  ((m.estadoAtual = MarioBros || m.estadoAtual = MarioInvencivel) && m.colidiuCom = Flor) => m.proximoEstado = FireMario
-}
-
 fact MarioColetaCogumelo{
 	all m:Mario | (m.estadoAtual = MarioBros && m.colidiuCom = Cogumelo) => m.proximoEstado = SuperMario
-}
-
-fact MarioColetaPena{
-	all m:Mario | ((m.estadoAtual = MarioBros || m.estadoAtual = MarioInvencivel) && m.colidiuCom = Pena) => m.proximoEstado = MarioCapa
-}
-
-fact MarioColetaEstrela{
-	all m:Mario |  (m.estadoAtual = MarioBros && m.colidiuCom = Estrela) => m.proximoEstado = MarioInvencivel
 }
 
 
@@ -85,17 +77,6 @@ fact SuperMarioColetaCogumelo{
 	all m:Mario |  (m.estadoAtual = SuperMario && m.colidiuCom = Cogumelo) => m.proximoEstado = SuperMario
 }
 
-fact SuperMarioColetaPena{
-	all m:Mario | (m.estadoAtual = SuperMario && m.colidiuCom = Pena) => m.proximoEstado = MarioCapa
-}
-
-fact SuperMarioColetaFlor{
-	all m:Mario |  (m.estadoAtual = SuperMario && m.colidiuCom = Flor) => m.proximoEstado = FireMario
-}
-
-fact SuperMarioColetaEstrela{
-	all m:Mario | (m.estadoAtual = SuperMario && m.colidiuCom = Estrela) => m.proximoEstado = MarioInvencivel
-}
 
 
 //Fire Mario
@@ -104,15 +85,6 @@ fact FireMarioColetaCogumeloOuFlor{
 	all m:Mario | (m.estadoAtual = FireMario && (m.colidiuCom = Cogumelo || m.colidiuCom = Flor)) => m.proximoEstado = FireMario
 }
 
-fact FireMarioColetaPena{
-	all m:Mario |  (m.estadoAtual = FireMario && m.colidiuCom = Pena) => m.proximoEstado = MarioCapa
-}
-
-fact FireMarioColetaEstrela{
-	all m:Mario |  (m.estadoAtual = FireMario && m.colidiuCom = Estrela) => m.proximoEstado = MarioInvencivel
-}
-
-
 
 //Mario Capa
 
@@ -120,27 +92,12 @@ fact MarioCapaColetaCogumeloOuPena{
 	all m:Mario | (m.estadoAtual = MarioCapa && (m.colidiuCom = Cogumelo || m.colidiuCom = Pena)) => m.proximoEstado = MarioCapa
 }
 
-fact MarioCapaColetaFlor{
-	all m:Mario | (m.estadoAtual = MarioCapa && m.colidiuCom = Flor) => m.proximoEstado = FireMario
-}
-
-fact MarioCapaColetaEstrela{
-	all m:Mario |  (m.estadoAtual = MarioCapa && m.colidiuCom = Estrela) => m.proximoEstado = MarioInvencivel
-}
-
-
 //Mario Invencível
 
 fact MarioNaoPerdeInvencibilidade{
 	all m:Mario | (m.estadoAtual = MarioInvencivel && (m.colidiuCom = Inimigo || m.colidiuCom = Cogumelo || m.colidiuCom = Estrela)) => m.proximoEstado = MarioInvencivel
 }
 
-fact MarioInvencivelColideComFlor{
-	all m:Mario | (m.estadoAtual = MarioInvencivel && m.colidiuCom = Flor) => m.proximoEstado = FireMario
-}
-fact MarioInvencivelColideComPena{
-	all m:Mario | (m.estadoAtual = MarioInvencivel && m.colidiuCom = Pena) => m.proximoEstado = MarioCapa
-}
 fact MarioInvencivelColideComQualquerOutraCoisa{
 	all m:Mario | (m.estadoAtual = MarioInvencivel && (m.colidiuCom != Pena && m.colidiuCom != Flor)) => m.proximoEstado = MarioInvencivel
 }
